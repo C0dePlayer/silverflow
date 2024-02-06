@@ -1,4 +1,4 @@
-name: silverflow-nvidia-bb
+name: silverflow-nvidia
 description: My personal OS image (based on silverblue-nvidia from uBlue OS)
 base-image: ghcr.io/ublue-os/silverblue-nvidia
 image-version: 39
