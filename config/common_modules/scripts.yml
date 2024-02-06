@@ -1,0 +1,7 @@
+type: script
+scripts:
+  - fix-signing.sh
+  - file-permissions.sh
+  - printer-drivers.sh
+  - power-scheduler.sh
+  - systemwide-themes.sh

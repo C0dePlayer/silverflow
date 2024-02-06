@@ -1,0 +1,1 @@
+COPY --from=ghcr.io/ublue-os/akmods:main-39 /rpms /tmp/rpms

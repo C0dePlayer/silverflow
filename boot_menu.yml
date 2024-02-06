@@ -1,5 +1,6 @@
 ublue_variants:
-  - label: blue-build/template
+  - label: c0deplayer/silverflow-bb
     ks: /kickstart/ublue-os.ks
     flavors:
-      - label: blue-build/template
+      - label: silverflow-nvidia-bb
+        info: GNOME with Nvidia drivers

@@ -1,0 +1,8 @@
+type: fonts
+fonts:
+  nerd-fonts:
+    - FiraCode
+    - JetBrainsMono
+    - Hack
+  google-fonts:
+    - Inter

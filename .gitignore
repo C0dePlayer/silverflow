@@ -1,2 +1,6 @@
+.idea
 cosign.key
-cosign.private
+
+# Ignore backup files
+__*.yml
+__*.sh

@@ -1,0 +1,113 @@
+title: Welcome to uBlue
+properties:
+  mode: "run-on-change"
+screens:
+
+  first-screen:
+    source: yafti.screen.title
+    values:
+      title: "Welcome to SilverFlow"
+      icon: "/path/to/icon"
+      description: |
+        Default system apps are installing in the background, but it is safe to use your computer in the meantime.
+        
+  applications:
+    source: yafti.screen.package
+    values:
+      title: Application Installer
+      show_terminal: true
+      package_manager: yafti.plugin.flatpak
+      package_manager_defaults:
+        system: false
+        user: true
+      groups:
+        DefaultPlus Apps:
+          description: Additional default applications for all desktop environments.
+          default: false
+          packages:
+            - Fedora Media Writer: org.fedoraproject.MediaWriter
+            - Mozilla Firefox: org.mozilla.firefox
+            - FreeFileSync: org.freefilesync.FreeFileSync
+        Web Browsers:
+          description: Additional browsers to complement or replace Firefox.
+          default: false
+          packages:
+            - Brave: com.brave.Browser
+            - GNOME Web: org.gnome.Epiphany
+            - Google Chrome: com.google.Chrome
+        Gaming:
+          description: "Rock and Stone!"
+          default: false
+          packages:
+            - Bottles: com.usebottles.bottles
+            - Discord: com.discordapp.Discord
+            - Heroic Games Launcher: com.heroicgameslauncher.hgl
+            - Steam: com.valvesoftware.Steam
+            - Lutris: net.lutris.Lutris
+        Entertainment:
+          description: Relax and take a break.
+          default: false
+          packages:
+            - Spotify: com.spotify.Client
+        Coding:
+          description: You gotta do what you gotta do.
+          default: false
+          packages:
+            - VSCode: com.visualstudio.code
+            - VSCodium: com.vscodium.codium
+            - BlackBox (Terminal): com.raggesilver.BlackBox
+        Office:
+          description: Boost your productivity.
+          default: false
+          packages:
+            - LibreOffice: org.libreoffice.LibreOffice
+            - OnlyOffice: org.onlyoffice.desktopeditors
+            - Obsidian: md.obsidian.Obsidian
+            - Slack: com.slack.Slack
+        Custom:
+          description: Other uncategorized applications.
+          default: false
+          packages:
+            - Caprine: com.sindresorhus.Caprine
+            - Telegram: org.telegram.desktop
+            - Upscaler: io.gitlab.theevilskeleton.Upscaler
+
+  can-we-harden-your-kargs:
+    source: yafti.screen.consent
+    values:
+      title: Kernel hardening
+      description: |
+        This step will enable additional kernel hardening. Warning: setting disable_early_pci_dma may lead to boot issues. If you encounter them, re-run this without the disable_early_pci_dma variable
+      actions:
+        - run: pkexec ujust set-kargs-hardening append
+
+  can-we-hide-grub:
+    source: yafti.screen.consent
+    values:
+      title: Hide GRUB
+      description: |
+        This step will hide GRUB from the boot process. If you want to access GRUB, hold down the ESC key during boot.
+      actions:
+        - run: pkexec ujust configure-grub hide
+
+  can-we-append-kargs-nvidia:
+    source: yafti.screen.consent
+    values:
+      title: NVIDIA Kernel Parameters
+      description: |
+        This step will append needed kernel parameters for NVIDIA drivers. If you have an NVIDIA GPU, you should run this. 
+      actions:
+        - run: pkexec ujust configure-nvidia kargs
+
+  final-screen:
+    source: yafti.screen.title
+    values:
+      title: "All done!"
+      icon: "/path/to/icon"
+      links:
+        - "Website":
+            run: /usr/bin/xdg-open https://universal-blue.org/
+        - "Join the Discord Community":
+            run: /usr/bin/xdg-open https://discord.gg/XjG48C7VHx
+      description: |
+        Thanks for trying SilverFlow, I hope you enjoy it!
