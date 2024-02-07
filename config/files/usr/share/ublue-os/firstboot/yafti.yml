@@ -25,16 +25,10 @@ screens:
           description: Additional default applications for all desktop environments.
           default: false
           packages:
-            - Fedora Media Writer: org.fedoraproject.MediaWriter
+            - Impression: io.gitlab.adhami3310.Impression
             - Mozilla Firefox: org.mozilla.firefox
-            - FreeFileSync: org.freefilesync.FreeFileSync
-        Web Browsers:
-          description: Additional browsers to complement or replace Firefox.
-          default: false
-          packages:
-            - Brave: com.brave.Browser
             - GNOME Web: org.gnome.Epiphany
-            - Google Chrome: com.google.Chrome
+            - FreeFileSync: org.freefilesync.FreeFileSync
         Gaming:
           description: "Rock and Stone!"
           default: false
@@ -64,6 +58,12 @@ screens:
             - OnlyOffice: org.onlyoffice.desktopeditors
             - Obsidian: md.obsidian.Obsidian
             - Slack: com.slack.Slack
+        Privacy:
+          description: Keep your data safe.
+          default: false
+          packages:
+            - Obfuscate: com.belmoussaoui.Obfuscate.Locale
+            - Metadata Cleaner: fr.romainvigier.MetadataCleaner
         Custom:
           description: Other uncategorized applications.
           default: false
@@ -71,6 +71,7 @@ screens:
             - Caprine: com.sindresorhus.Caprine
             - Telegram: org.telegram.desktop
             - Upscaler: io.gitlab.theevilskeleton.Upscaler
+            - Weather: io.github.amit9838.weather
 
   can-we-harden-your-kargs:
     source: yafti.screen.consent
