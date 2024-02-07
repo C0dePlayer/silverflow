@@ -1,6 +1,3 @@
-import '100-bling.just'
-# Include some of your custom scripts here!
-
 # Install pdm (modern Python package and dependency manager) | https://pdm-project.org/latest/
 install-pdm:
     #!/usr/bin/env bash
