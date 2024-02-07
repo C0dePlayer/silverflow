@@ -2,12 +2,11 @@
 
 [![build-ublue](https://github.com/C0dePlayer/silverflow/actions/workflows/build.yml/badge.svg)](https://github.com/C0dePlayer/silverflow/actions/workflows/build.yml)
 
-SilverFlow is based on [build-blue/template](https://github.com/blue-build/template), which makes it easy to create your own custom image-based Fedora experience. For more information, see the [uBlue homepage](https://universal-blue.org/) and the [main uBlue repo](https://github.com/ublue-os/main/).
+SilverFlow is based on [build-blue/template](https://github.com/blue-build/template), which makes it easy to create your own custom image-based Fedora experience. 
+
+See the [BlueBuild](https://blue-build.org/how-to/setup/) docs for quick setup instructions for setting up your own repository.
 
 ## Installation
-
-> [!WARNING]
-> Currently, the system is undergoing constant changes, such as system hardening, package replacement or other experiments (not sure how long).
 
 > [!NOTE]
 > I recommend either using one of the main uBlue images or creating your own
