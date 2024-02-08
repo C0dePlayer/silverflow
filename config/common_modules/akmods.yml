@@ -1,5 +1,0 @@
-type: akmods
-install:
-  - openrazer
-  - winesync
-  - ryzen-smu
