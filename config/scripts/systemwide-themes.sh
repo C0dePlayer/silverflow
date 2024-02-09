@@ -6,6 +6,7 @@ FILES_ROOT="/tmp/config/files"
 ICONS_DIR="/usr/share/icons"
 MOREWAITA_DIR="$ICONS_DIR/MoreWaita"
 MOREWAITA_MAIN_DIR="$MOREWAITA_DIR-main"
+ADW_GTK3_VERSION="5-2"
 
 unpack_and_copy() {
     local file=$1
@@ -20,8 +21,11 @@ unpack_and_copy() {
         else
             unzip "${file}"
         fi
-        echo "Copying ${directory_name} to ${ICONS_DIR}"
-        cp -r "${directory_name}" "$ICONS_DIR"
+
+        if [ -d "$directory_name" ]; then
+            echo "Copying ${directory_name} to ${ICONS_DIR}"
+            cp -r "${directory_name}" "$ICONS_DIR"
+        fi
     fi
 }
 
@@ -31,6 +35,7 @@ mkdir -p "$ICONS_DIR"
 
 wget -O "${FILES_ROOT}/Bibata-Modern-Ice.tar.xz" https://github.com/ful1e5/Bibata_Cursor/releases/latest/download/Bibata-Modern-Ice.tar.xz
 wget -O "${FILES_ROOT}/Bibata-Modern-Classic.tar.xz" https://github.com/ful1e5/Bibata_Cursor/releases/latest/download/Bibata-Modern-Classic.tar.xz
+wget -O "${FILES_ROOT}/adw-gtk3v${ADW_GTK3_VERSION}.tar.xz" https://github.com/lassekongo83/adw-gtk3/releases/latest/download/adw-gtk3v${ADW_GTK3_VERSION}.tar.xz
 wget -O "${FILES_ROOT}/MoreWaita-main.zip" https://github.com/somepaulo/MoreWaita/archive/refs/heads/main.zip
 
 cd "${FILES_ROOT}" || exit
@@ -50,3 +55,6 @@ mv "$MOREWAITA_MAIN_DIR" "$MOREWAITA_DIR"
 
 gtk-update-icon-cache -f -t "$MOREWAITA_DIR"
 xdg-desktop-menu forceupdate
+
+cp "adw-gtk3" "${ICONS_DIR}"
+cp "adw-gtk3-dark" "${ICONS_DIR}"

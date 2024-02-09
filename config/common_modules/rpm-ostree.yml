@@ -4,7 +4,6 @@ repos:
   - https://raw.githubusercontent.com/ublue-os/bluefin/main/dx/etc/yum.repos.d/vscode.repo
 install:
   - gnome-console
-  - adw-gtk3-theme
   - code
 remove:
   - gnome-tweaks
