@@ -19,7 +19,7 @@ unpack_and_copy() {
         if [[ $extension == "tar.xz" ]]; then
             tar -xf "${file}"
         else
-            unzip "${file}"
+            unzip -qq "${file}"
         fi
 
         if [ -d "$directory_name" ]; then
