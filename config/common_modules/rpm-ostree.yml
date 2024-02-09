@@ -6,6 +6,8 @@ install:
   - gnome-console
   - code
 remove:
+  - firefox
+  - firefox-langpacks
   - gnome-tweaks
   - gnome-software
   - gnome-software-rpm-ostree
