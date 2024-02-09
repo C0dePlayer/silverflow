@@ -56,5 +56,5 @@ mv "$MOREWAITA_MAIN_DIR" "$MOREWAITA_DIR"
 gtk-update-icon-cache -f -t "$MOREWAITA_DIR"
 xdg-desktop-menu forceupdate
 
-cp "adw-gtk3" "${ICONS_DIR}"
-cp "adw-gtk3-dark" "${ICONS_DIR}"
+cp -r "adw-gtk3" "${ICONS_DIR}"
+cp -r "adw-gtk3-dark" "${ICONS_DIR}"
