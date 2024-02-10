@@ -26,23 +26,39 @@ screens:
           default: false
           packages:
             - Impression: io.gitlab.adhami3310.Impression
-            - Mozilla Firefox: org.mozilla.firefox
             - GNOME Web: org.gnome.Epiphany
             - FreeFileSync: org.freefilesync.FreeFileSync
+            - Upscaler: io.gitlab.theevilskeleton.Upscaler
+            - Weather: io.github.amit9838.weather
+        Browsers:
+          description: "Surf the web."
+          default: false
+          packages:
+            - Firefox: org.mozilla.firefox
+            - Chromium: org.chromium.Chromium
+            - Vivaldi: com.vivaldi.Vivaldi
+            - Edge: com.microsoft.Edge
+            - Opera: com.opera.Opera
+            - Librewolf: io.gitlab.librewolf-community
         Gaming:
           description: "Rock and Stone!"
           default: false
           packages:
             - Bottles: com.usebottles.bottles
-            - Discord: com.discordapp.Discord
             - Heroic Games Launcher: com.heroicgameslauncher.hgl
             - Steam: com.valvesoftware.Steam
             - Lutris: net.lutris.Lutris
+            - Steam: com.valvesoftware.Steam
+            - ProtonPlus (Steam Proton Manager): com.vysp3r.ProtonPlus
+            - PCSX2 (PS2 Emulator): net.pcsx2.PCSX2
+            - Space Cadet Pinball: com.github.k4zmu2a.spacecadetpinball
+            - Cartridges (Universal Game Launcher): hu.kramo.Cartridges
         Entertainment:
           description: Relax and take a break.
           default: false
           packages:
             - Spotify: com.spotify.Client
+            - FreeTube: io.freetubeapp.FreeTube
         Coding:
           description: You gotta do what you gotta do.
           default: false
@@ -50,6 +66,7 @@ screens:
             - VSCode: com.visualstudio.code
             - VSCodium: com.vscodium.codium
             - BlackBox (Terminal): com.raggesilver.BlackBox
+            - Lapce: dev.lapce.lapce
         Office:
           description: Boost your productivity.
           default: false
@@ -64,21 +81,24 @@ screens:
           packages:
             - Obfuscate: com.belmoussaoui.Obfuscate.Locale
             - Metadata Cleaner: fr.romainvigier.MetadataCleaner
-        Custom:
-          description: Other uncategorized applications.
+        Social:
+          description: Stay connected.
           default: false
           packages:
-            - Caprine: com.sindresorhus.Caprine
+            - Discord: com.discordapp.Discord
+            - Vesktop (Custom Discord Client): dev.vencord.Vesktop
             - Telegram: org.telegram.desktop
-            - Upscaler: io.gitlab.theevilskeleton.Upscaler
-            - Weather: io.github.amit9838.weather
+            - Caprine: com.sindresorhus.Caprine
+            - Element: im.riot.Riot
+            - Signal: org.signal.Signal
+            - Flare: de.schmidhuberj.Flare
 
   can-we-harden-your-kargs:
     source: yafti.screen.consent
     values:
       title: Kernel hardening
       description: |
-        This step will enable additional kernel hardening. Warning: setting disable_early_pci_dma may lead to boot issues. If you encounter them, re-run this without the disable_early_pci_dma variable
+        This step will enable additional kernel hardening. If you encounter any issues, execute the following command in a terminal: `ujust set-kargs-hardening delete`
       actions:
         - run: pkexec ujust set-kargs-hardening append
 
