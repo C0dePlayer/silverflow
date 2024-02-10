@@ -2,9 +2,13 @@ type: rpm-ostree
 repos:
   # VSCode repository from bluefin
   - https://raw.githubusercontent.com/ublue-os/bluefin/main/dx/etc/yum.repos.d/vscode.repo
+  # Repo for Razer Hardware
+  - https://download.opensuse.org/repositories/hardware:/razer/Fedora_%OS_VERSION%/hardware:razer.repo
 install:
   - gnome-console
   - code
+  - polychromatic
+  - openrazer-meta
 remove:
   - firefox
   - firefox-langpacks
