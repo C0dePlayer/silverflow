@@ -9,6 +9,10 @@ install:
   - code
   - polychromatic
   - openrazer-meta
+  - lynis
+  - chkrootkit
+  - usbguard
+  - usbguard-dbus
 remove:
   - firefox
   - firefox-langpacks
