@@ -18,7 +18,6 @@ user:
     - org.gnome.NautilusPreviewer
     - org.gnome.SimpleScan
     - org.gnome.TextEditor
-    - org.gnome.World.PikaBackup
     - org.gnome.baobab
     - org.gnome.clocks
     - com.github.rafostar.Clapper

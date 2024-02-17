@@ -30,6 +30,7 @@ screens:
             - FreeFileSync: org.freefilesync.FreeFileSync
             - Upscaler: io.gitlab.theevilskeleton.Upscaler
             - Weather: io.github.amit9838.weather
+            - Pika Backup: org.gnome.World.PikaBackup
         Browsers:
           description: "Surf the web."
           default: false
