@@ -13,6 +13,7 @@ install:
   - chkrootkit
   - usbguard
   - usbguard-dbus
+  - printer-driver-brlaser
 remove:
   - firefox
   - firefox-langpacks

@@ -2,6 +2,5 @@ type: script
 scripts:
   - brave-browser.sh
   - file-permissions.sh
-  - printer-drivers.sh
   - power-scheduler.sh
   - systemwide-themes.sh
