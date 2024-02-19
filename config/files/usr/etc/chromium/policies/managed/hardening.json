@@ -6,8 +6,10 @@
     "BackgroundModeEnabled": false,
     "BlockThirdPartyCookies": true,
     "ChromeCleanupReportingEnabled": false,
+    "ChromeVariations": 1,
     "ClickToCallEnabled": false,
     "HttpsOnlyMode": "force_enabled",
+    "DnsOverHttpsMode": "automatic",
     "MediaRecommendationsEnabled": false,
     "MetricsReportingEnabled": false,
     "NetworkPredictionOptions": 2,
@@ -20,5 +22,8 @@
     "TranslateEnabled": false,
     "UrlKeyedAnonymizedDataCollectionEnabled": false,
     "WebRtcEventLogCollectionAllowed": false,
-    "WebRtcIPHandling": "disable_non_proxied_udp"
+    "WebRtcIPHandling": "disable_non_proxied_udp",
+    "SafeBrowsingExtendedReportingEnabled": false,
+    "BrowserSignin": 0,
+    "AlternateErrorPagesEnabled": false
 }
