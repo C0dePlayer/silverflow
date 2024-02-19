@@ -1,4 +1,4 @@
-# `image-cleaner` Module for Startingpoint
+# `image-cleaner` Module
 
 The `image-cleaner` module is a tool designed to enhance your desktop experience by efficiently managing and decluttering unnecessary shortcuts or repositories that may accumulate during image building.
 
