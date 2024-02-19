@@ -5,6 +5,7 @@ repos:
   # Repo for Razer Hardware
   - https://download.opensuse.org/repositories/hardware:/razer/Fedora_%OS_VERSION%/hardware:razer.repo
 install:
+  - btop
   - gnome-console
   - code
   - polychromatic
@@ -32,3 +33,5 @@ remove:
   - gnome-system-monitor
   - toolbox
   - yelp
+  - nvtop
+  - htop
