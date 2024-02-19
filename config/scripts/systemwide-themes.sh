@@ -6,7 +6,7 @@ FILES_ROOT="/tmp/config/files"
 ICONS_DIR="/usr/share/icons"
 MOREWAITA_DIR="$ICONS_DIR/MoreWaita"
 MOREWAITA_MAIN_DIR="$MOREWAITA_DIR-main"
-ADW_GTK3_VERSION="5-2"
+ADW_GTK3_VERSION=$(curl -sL https://api.github.com/repos/lassekongo83/adw-gtk3/releases/latest | jq -r ".tag_name" | tr '.' '-')
 
 unpack_and_copy() {
     local file=$1
@@ -35,7 +35,7 @@ mkdir -p "$ICONS_DIR"
 
 wget -O "${FILES_ROOT}/Bibata-Modern-Ice.tar.xz" https://github.com/ful1e5/Bibata_Cursor/releases/latest/download/Bibata-Modern-Ice.tar.xz
 wget -O "${FILES_ROOT}/Bibata-Modern-Classic.tar.xz" https://github.com/ful1e5/Bibata_Cursor/releases/latest/download/Bibata-Modern-Classic.tar.xz
-wget -O "${FILES_ROOT}/adw-gtk3v${ADW_GTK3_VERSION}.tar.xz" https://github.com/lassekongo83/adw-gtk3/releases/latest/download/adw-gtk3v${ADW_GTK3_VERSION}.tar.xz
+wget -O "${FILES_ROOT}/adw-gtk3${ADW_GTK3_VERSION}.tar.xz" "https://github.com/lassekongo83/adw-gtk3/releases/latest/download/adw-gtk3${ADW_GTK3_VERSION}.tar.xz"
 wget -O "${FILES_ROOT}/MoreWaita-main.zip" https://github.com/somepaulo/MoreWaita/archive/refs/heads/main.zip
 
 cd "${FILES_ROOT}" || exit
