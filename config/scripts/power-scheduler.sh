@@ -11,8 +11,7 @@ wget "https://copr.fedorainfracloud.org/coprs/ublue-os/staging/repo/fedora-$(rpm
 
 if rpm -qa | grep power-profiles-daemon; then
     rpm-ostree override remove power-profiles-daemon gamemode --install=system76-scheduler --install=gnome-shell-extension-system76-scheduler \
-        --install=tuned --install=tuned-ppd --install=tuned-utils --install=tuned-utils-systemtap --install=tuned-profiles-atomic \
-        --install=tuned-profiles-cpu-partitioning
+        --install=tuned --install=tuned-ppd --install=tuned-utils --install=tuned-profiles-atomic --install=tuned-profiles-cpu-partitioning
 else
     rpm-ostree install system76-scheduler gnome-shell-extension-system76-scheduler tuned tuned-ppd tuned-utils tuned-utils-systemtap \
         tuned-profiles-atomic tuned-profiles-cpu-partitioning
