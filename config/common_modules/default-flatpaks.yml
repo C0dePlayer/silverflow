@@ -23,8 +23,6 @@ user:
     - com.github.rafostar.Clapper
     - com.github.tchx84.Flatseal
     - com.mattjakeman.ExtensionManager
-    - io.missioncenter.MissionCenter
-    - com.github.marhkb.Pods
     - org.gtk.Gtk3theme.adw-gtk3
     - org.gtk.Gtk3theme.adw-gtk3-dark
     - org.localsend.localsend_app
