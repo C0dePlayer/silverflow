@@ -32,7 +32,6 @@ remove:
   - gnome-shell-extension-launch-new-instance
   - gnome-shell-extension-window-list
   - gnome-system-monitor
-  - toolbox
   - yelp
   - nvtop
   - htop
