@@ -1,12 +1,40 @@
 # Install pdm (modern Python package and dependency manager) | https://pdm-project.org/latest/
 install-pdm:
     #!/usr/bin/env bash
-    cd ~/Downloads || exit
+    cd "${HOME}/Downloads" || exit
     curl -sSLO https://pdm-project.org/install-pdm.py
     curl -sSL https://pdm-project.org/install-pdm.py.sha256 | sha256sum -c -
-    HOMEDIR=$( getent passwd "$USER" | cut -d: -f6 )
-    python3 install-pdm.py --path "${HOMEDIR}/pdm"
-    rm install-pdm.py
+    python3 install-pdm.py --path "${HOME}/pdm"
+    rm -f install-pdm.py
+
+# Install conda with mamba (fast, robust, and cross-platform package manager) | https://mamba.readthedocs.io/en/latest/index.html
+install-mamba:
+    #!/usr/bin/env bash
+    cd "${HOME}/Downloads" || exit
+    wget -O Miniforge3.sh "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh"
+    bash Miniforge3.sh -b
+    rm -f Miniforge3.sh
+
+# Removes pdm from the system
+remove-pdm:
+    #!/usr/bin/env bash
+    cd "${HOME}/Downloads" || exit
+    curl -sSLO https://pdm-project.org/install-pdm.py
+    curl -sSL https://pdm-project.org/install-pdm.py.sha256 | sha256sum -c -
+    python3 install-pdm.py --path "${HOME}/pdm" --remove
+    rm -f install-pdm.py
+
+# Removes conda and mamba from the system
+remove-mamba:
+    #!/usr/bin/env bash
+    conda init --reverse
+    CONDA_BASE_ENVIRONMENT=$(conda info --base)
+    echo "The next command will delete all files in ${CONDA_BASE_ENVIRONMENT}"
+    rm -rf ${CONDA_BASE_ENVIRONMENT}
+    echo "${HOME}/.condarc will be removed if it exists"
+    rm -f "${HOME}/.condarc"
+    echo "${HOME}/.conda and underlying files will be removed if they exist"
+    rm -rf ${HOME}/.conda
 
 # Add additional boot parameters for hardening (requires reboot)
 set-kargs-hardening ACTION="prompt":
@@ -16,7 +44,6 @@ set-kargs-hardening ACTION="prompt":
     OPTION={{ ACTION }}
     if [ "$OPTION" == "prompt" ]; then
       echo "${bold}Additional boot parameters for hardening${normal}"
-      echo 'GRUB hiding option can be useful for making boot-times faster.'
       echo 'Press ESC to exit.'
       OPTION=$(ugum choose "Append" Delete)
     fi
