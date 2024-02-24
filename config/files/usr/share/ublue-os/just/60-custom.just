@@ -1,28 +1,43 @@
 # Install pdm (modern Python package and dependency manager) | https://pdm-project.org/latest/
 install-pdm:
     #!/usr/bin/env bash
-    cd "${HOME}/Downloads" || exit
+    pushd "$(mktemp -d)"
     curl -sSLO https://pdm-project.org/install-pdm.py
     curl -sSL https://pdm-project.org/install-pdm.py.sha256 | sha256sum -c -
     python3 install-pdm.py --path "${HOME}/pdm"
-    rm -f install-pdm.py
 
 # Install conda with mamba (fast, robust, and cross-platform package manager) | https://mamba.readthedocs.io/en/latest/index.html
 install-mamba:
     #!/usr/bin/env bash
-    cd "${HOME}/Downloads" || exit
+    pushd "$(mktemp -d)"
     wget -O Miniforge3.sh "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh"
     bash Miniforge3.sh -b
-    rm -f Miniforge3.sh
+
+# Install JetBrains Toolbox | https://www.jetbrains.com/toolbox-app/
+install-jetbrains-toolbox:
+    #!/usr/bin/env bash
+    pushd "$(mktemp -d)"
+    echo "Get latest JetBrains Toolbox version"
+    # Get the json with latest releases
+    curl -sSfL -o releases.json "https://data.services.jetbrains.com/products/releases?code=TBA&latest=true&type=release"
+    # Extract information
+    BUILD_VERSION=$(jq -r '.TBA[0].build' ./releases.json)
+    DOWNLOAD_LINK=$(jq -r '.TBA[0].downloads.linux.link' ./releases.json)
+    CHECKSUM_LINK=$(jq -r '.TBA[0].downloads.linux.checksumLink' ./releases.json)
+    echo "Installing JetBrains Toolbox ${BUILD_VERSION}"
+    curl -sSfL -O "${DOWNLOAD_LINK}"
+    curl -sSfL "${CHECKSUM_LINK}" | sha256sum -c
+    tar zxf jetbrains-toolbox-"${BUILD_VERSION}".tar.gz
+    echo "Launching JetBrains Toolbox"
+    ./jetbrains-toolbox-"${BUILD_VERSION}"/jetbrains-toolbox
 
 # Removes pdm from the system
 remove-pdm:
     #!/usr/bin/env bash
-    cd "${HOME}/Downloads" || exit
+    pushd "$(mktemp -d)"
     curl -sSLO https://pdm-project.org/install-pdm.py
     curl -sSL https://pdm-project.org/install-pdm.py.sha256 | sha256sum -c -
     python3 install-pdm.py --path "${HOME}/pdm" --remove
-    rm -f install-pdm.py
 
 # Removes conda and mamba from the system
 remove-mamba:
