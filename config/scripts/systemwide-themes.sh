@@ -6,7 +6,7 @@ FILES_ROOT="/tmp/config/files"
 ICONS_DIR="/usr/share/icons"
 MOREWAITA_DIR="$ICONS_DIR/MoreWaita"
 MOREWAITA_MAIN_DIR="$MOREWAITA_DIR-main"
-ADW_GTK3_VERSION=$(curl -sL https://api.github.com/repos/lassekongo83/adw-gtk3/releases/latest | jq -r ".tag_name" | tr '.' '-')
+ADW_GTK3_VERSION=$(curl -sL https://api.github.com/repos/lassekongo83/adw-gtk3/releases/latest | jq -r ".tag_name")
 
 unpack_and_copy() {
     local file=$1
