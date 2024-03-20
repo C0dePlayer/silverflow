@@ -9,14 +9,9 @@ See the [BlueBuild](https://blue-build.org/how-to/setup/) docs for quick setup i
 ## Installation
 
 > [!NOTE]
-> I recommend either using one of the main uBlue images or creating your own
+> You can generate an offline ISO with the instructions available [here](https://blue-build.org/learn/universal-blue/#fresh-install-from-an-iso). These ISOs cannot unfortunately be distributed on GitHub for free due to large sizes.
 
-**Recommended:** Use the latest ISO from [the Releases page](https://github.com/C0dePlayer/silverflow/releases)
-
-<details>
-  <summary><b>Rebase an existing Silverblue/Kinoite installation</b></summary>
-
-  1. Rebase to the unsigned image to install the proper signing keys and policies:
+1. Rebase to the unsigned image to install the proper signing keys and policies:
      
      ```
      rpm-ostree rebase ostree-unverified-registry:ghcr.io/c0deplayer/silverflow-nvidia:latest
@@ -26,14 +21,14 @@ See the [BlueBuild](https://blue-build.org/how-to/setup/) docs for quick setup i
         ```
         rpm-ostree rebase ostree-unverified-registry:ghcr.io/c0deplayer/silverflow-nvidia:20231005
         ```
-  2. Reboot to complete the rebase:
+  1. Reboot to complete the rebase:
      
       ```
       systemctl reboot
       ```
       
-  3. After first boot, the first time that [ublue-update](https://github.com/ublue-os/ublue-update) runs it will automatically rebase you onto the signed image.
-</details>
+  2. After first boot, the first time that [ublue-update](https://github.com/ublue-os/ublue-update) runs it will automatically rebase you onto the signed image.
+
 
 ## Verification
 
