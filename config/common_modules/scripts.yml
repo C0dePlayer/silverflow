@@ -1,6 +1,7 @@
 type: script
 scripts:
   - brave-browser.sh
-  - file-permissions.sh
   - power-scheduler.sh
   - systemwide-themes.sh
+snippets:
+  - "chmod 440 /usr/etc/sudoers.d/timeout"
