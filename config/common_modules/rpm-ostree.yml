@@ -23,6 +23,7 @@ install:
   - virt-manager
   - virt-viewer
 remove:
+  - toolbox
   - firefox
   - firefox-langpacks
   - gnome-tweaks
