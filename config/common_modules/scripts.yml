@@ -4,4 +4,5 @@ scripts:
   - power-scheduler.sh
   - systemwide-themes.sh
 snippets:
+  - "rpm-ostree install https://proton.me/download/mail/linux/ProtonMail-desktop-beta.rpm"
   - "chmod 440 /usr/etc/sudoers.d/timeout"
