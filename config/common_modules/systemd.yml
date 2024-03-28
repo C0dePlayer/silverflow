@@ -1,7 +1,6 @@
 type: systemd
 system:
   enabled:
-    - minimum-free-zram.service
     - supergfxd.service
 user:
   enabled:
