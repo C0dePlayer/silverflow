@@ -104,44 +104,52 @@ set-kargs-hardening ACTION="prompt":
         --delete-if-present="mitigations=auto,nosmt"
     fi
 
-# Configure GRUB screen with various options
-configure-grub ACTION="prompt":
-    #!/usr/bin/env bash
-    bold=$(tput bold)
-    normal=$(tput sgr0)
+# Configure grub bootmenu visibility and fix duplicate entries
+configure-grub ACTION="":
+    #!/bin/bash
+    source /usr/lib/ujust/ujust.sh
+    GRUB_STATE="$(grep -P "^GRUB_TIMEOUT_STYLE=hidden" /etc/default/grub)"
     OPTION={{ ACTION }}
-    if [ "$OPTION" == "prompt" ]; then
-      echo "${bold}Configuring GRUB${normal}"
-      echo 'GRUB hiding option can be useful for making boot-times faster.'
-      echo 'Hide or Unhide GRUB? Press ESC to exit.'
-      OPTION=$(ugum choose "Unhide (Default)" Hide)
-    elif [ "$OPTION" == "help" ]; then
+    if [ "$GRUB_STATE" == "GRUB_TIMEOUT_STYLE=hidden" ]; then
+        GRUB_STATE="${b}Hidden${n}"
+    else
+        GRUB_STATE="${b}Not Hidden${n}"
+    fi
+    if [ "$OPTION" == "help" ]; then
       echo "Usage: ujust configure-grub <option>"
-      echo "  <option>: Specify the quick option - 'hide' or 'unhide'"
-      echo "  Use 'hide' to hide GRUB boot screen."
-      echo "  Use 'unhide' to revert to defaults."
+      echo "  <option>: Specify the quick option to skip the prompt"
+      echo "  Use 'hide' to select Hide Grub"
+      echo "  Use 'unhide' to select Unhide Grub"
+      echo "  Use 'fix' to select Fix double ostree entry"
       exit 0
-    fi    
-    if [ "${OPTION,,}" == "hide" ]; then
+    elif [ "$OPTION" == "" ]; then
+      echo "${bold}Grub menu configuration${normal}"
+      echo "Grub menu is set to: $GRUB_STATE"
+      OPTION=$(Choose "Hide Grub" "Unhide Grub" "Fix double ostree entry")
+    fi
+    if [[ "${OPTION,,}" =~ ^hide ]]; then
       sudo sed -i 's/GRUB_TIMEOUT=5/GRUB_TIMEOUT=0/g' /etc/default/grub
-      output=$(echo 'GRUB_TIMEOUT_STYLE=hidden' | sudo tee -a /etc/default/grub 2>&1) || echo "$output" && false
-      output=$(echo 'GRUB_HIDDEN_TIMEOUT=1' | sudo tee -a /etc/default/grub 2>&1) || echo "$output" && false
+      echo 'GRUB_TIMEOUT_STYLE=hidden' | sudo tee -a /etc/default/grub 1>/dev/null
+      echo 'GRUB_HIDDEN_TIMEOUT=1' | sudo tee -a /etc/default/grub 1>/dev/null
       if [ -d /sys/firmware/efi ]; then
-        output=$(sudo grub2-mkconfig -o /etc/grub2-efi.cfg 2>&1) || echo "$output" && false
-            echo 'Hide UEFI GRUB logs during boot setting applied.'  
+        sudo grub2-mkconfig -o /etc/grub2-efi.cfg
       else
-        output=$(sudo grub2-mkconfig -o /etc/grub2.cfg 2>&1) || echo "$output" && false
-            echo 'Hide BIOS GRUB logs during boot setting applied.'   
+        sudo grub2-mkconfig -o /etc/grub2.cfg
       fi
-    elif [ "$OPTION" == "Unhide (Default)" ] || [ "${OPTION,,}" == "unhide" ]; then
+    elif [[ "${OPTION,,}" =~ ^unhide ]]; then
       sudo sed -i '/GRUB_HIDDEN_TIMEOUT=1/d' /etc/default/grub
       sudo sed -i '/GRUB_TIMEOUT_STYLE=hidden/d' /etc/default/grub
       sudo sed -i 's/GRUB_TIMEOUT=0/GRUB_TIMEOUT=5/g' /etc/default/grub
       if [ -d /sys/firmware/efi ]; then
-        output=$(sudo grub2-mkconfig -o /etc/grub2-efi.cfg 2>&1) || echo "$output" && false
-            echo 'Reverted setting "UEFI GRUB logs during boot" to defaults.'  
+        sudo grub2-mkconfig -o /etc/grub2-efi.cfg
       else
-        output=$(sudo grub2-mkconfig -o /etc/grub2.cfg 2>&1) || echo "$output" && false
-            echo 'Reverted setting "BIOS GRUB logs during boot" to defaults.'   
+        sudo grub2-mkconfig -o /etc/grub2.cfg
+      fi
+    elif [[ "${OPTION,,}" =~ ^fix ]]; then
+      sudo grub2-switch-to-blscfg
+      if [ -d /sys/firmware/efi ]; then
+        sudo grub2-mkconfig -o /etc/grub2-efi.cfg
+      else
+        sudo grub2-mkconfig -o /etc/grub2.cfg
       fi
     fi
