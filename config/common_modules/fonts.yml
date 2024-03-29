@@ -4,5 +4,5 @@ fonts:
     - FiraCode
     - JetBrainsMono
     - Hack
-  # google-fonts:
-  #   - Inter
+  google-fonts:
+    - Inter
