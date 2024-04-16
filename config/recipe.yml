@@ -1,7 +1,7 @@
 name: silverflow-nvidia
 description: My personal OS image (based on silverblue-nvidia from uBlue OS)
 base-image: ghcr.io/ublue-os/silverblue-nvidia
-image-version: 39
+image-version: 40
 
 modules:
   - from-file: common_modules/files.yml

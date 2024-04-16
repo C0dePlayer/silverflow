@@ -33,6 +33,7 @@ remove:
   - gnome-terminal
   - gnome-terminal-nautilus
   - gnome-classic-session
+  - gnome-classic-session-xsession
   - gnome-shell-extension-apps-menu
   - gnome-shell-extension-places-menu
   - gnome-shell-extension-background-logo
