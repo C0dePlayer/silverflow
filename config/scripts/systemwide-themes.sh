@@ -2,30 +2,36 @@
 
 set -euo pipefail
 
-FILES_ROOT="/tmp/config/files"
-ICONS_DIR="/usr/share/icons"
-MOREWAITA_DIR="$ICONS_DIR/MoreWaita"
-MOREWAITA_MAIN_DIR="$MOREWAITA_DIR-main"
-ADW_GTK3_VERSION=$(curl -sL https://api.github.com/repos/lassekongo83/adw-gtk3/releases/latest | jq -r ".tag_name")
+readonly FILES_ROOT="/tmp/config/files"
+readonly ICONS_DIR="/usr/share/icons"
+readonly MOREWAITA_DIR="$ICONS_DIR/MoreWaita"
+readonly MOREWAITA_MAIN_DIR="$MOREWAITA_DIR-main"
+readonly URLS=("https://github.com/ful1e5/Bibata_Cursor/releases/latest/download/Bibata-Modern-Ice.tar.xz"
+    "https://github.com/ful1e5/Bibata_Cursor/releases/latest/download/Bibata-Modern-Classic.tar.xz"
+    "https://github.com/lassekongo83/adw-gtk3/releases/latest/download/adw-gtk3$(curl -sL https://api.github.com/repos/lassekongo83/adw-gtk3/releases/latest | jq -r ".tag_name").tar.xz"
+    "https://github.com/somepaulo/MoreWaita/archive/refs/heads/main.zip")
 
-unpack_and_copy() {
-    local file=$1
-    local extension=$2
-    local directory_name
-    directory_name=$(basename "${file}" ."${extension}")
+download_and_unpack() {
+    local url=$1
+    local filename
+    local directory_name=""
 
-    if [[ -f $file ]]; then
-        echo "Unpacking ${file}"
-        if [[ $extension == "tar.xz" ]]; then
-            tar -xf "${file}"
-        else
-            unzip -qq "${file}"
-        fi
+    filename=$(basename "$url")
 
-        if [ -d "$directory_name" ]; then
-            echo "Copying ${directory_name} to ${ICONS_DIR}"
-            cp -r "${directory_name}" "$ICONS_DIR"
-        fi
+    curl -Lo "${FILES_ROOT}/$filename" "$url"
+    echo "Unpacking $filename in $FILES_ROOT"
+
+    if [[ $filename =~ \.tar\.xz$ ]]; then
+        directory_name=${filename%.*.*}
+        tar -xf "${FILES_ROOT}/$filename"
+    elif [[ $url == *"MoreWaita/archive/refs/heads/main.zip" ]]; then
+        directory_name="MoreWaita-main"
+        unzip -qq "${FILES_ROOT}/$filename"
+    fi
+
+    if [[ -d "$directory_name" ]]; then
+        echo "Copying $directory_name to $ICONS_DIR"
+        cp -r "$directory_name" "$ICONS_DIR"
     fi
 }
 
@@ -33,20 +39,10 @@ unpack_and_copy() {
 mkdir -p "$FILES_ROOT"
 mkdir -p "$ICONS_DIR"
 
-wget -O "${FILES_ROOT}/Bibata-Modern-Ice.tar.xz" https://github.com/ful1e5/Bibata_Cursor/releases/latest/download/Bibata-Modern-Ice.tar.xz
-wget -O "${FILES_ROOT}/Bibata-Modern-Classic.tar.xz" https://github.com/ful1e5/Bibata_Cursor/releases/latest/download/Bibata-Modern-Classic.tar.xz
-wget -O "${FILES_ROOT}/adw-gtk3${ADW_GTK3_VERSION}.tar.xz" "https://github.com/lassekongo83/adw-gtk3/releases/latest/download/adw-gtk3${ADW_GTK3_VERSION}.tar.xz"
-wget -O "${FILES_ROOT}/MoreWaita-main.zip" https://github.com/somepaulo/MoreWaita/archive/refs/heads/main.zip
+cd "$FILES_ROOT" || exit
 
-cd "${FILES_ROOT}" || exit
-
-# Unpack and copy files
-for f in *; do
-    if [[ $f == *.tar.xz ]]; then
-        unpack_and_copy "$f" "tar.xz"
-    elif [[ $f == *.zip ]]; then
-        unpack_and_copy "$f" "zip"
-    fi
+for url in "${URLS[@]}"; do
+    download_and_unpack "$url"
 done
 
 find "$MOREWAITA_MAIN_DIR" \( -name "*.build" -o -name "*.sh" -o -name "*.md" -o -name "*.py" -o -name "*.git" \) -type f -delete
