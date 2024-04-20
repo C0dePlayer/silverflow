@@ -23,3 +23,6 @@ curl -o /usr/etc/system76-scheduler/config.kdl https://raw.githubusercontent.com
 
 sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/_copr_kylegospo_system76_scheduler_fedora.repo
 sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/_copr_ublue-os-staging.repo
+
+mkdir -p /usr/lib/tuned/balanced-no-pstate/
+curl -o /usr/lib/tuned/balanced-no-pstate/tuned.conf https://raw.githubusercontent.com/ublue-os/bazzite/main/system_files/desktop/shared/usr/lib/tuned/balanced-no-pstate/tuned.conf
