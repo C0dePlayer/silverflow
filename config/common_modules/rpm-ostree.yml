@@ -13,7 +13,6 @@ install:
   - polychromatic
   - openrazer-meta
   - lynis
-  - chkrootkit
   - usbguard
   - usbguard-dbus
   - usbguard-notifier
