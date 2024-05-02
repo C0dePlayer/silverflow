@@ -6,6 +6,8 @@ repos:
   - https://download.opensuse.org/repositories/hardware:/razer/Fedora_%OS_VERSION%/hardware:razer.repo
   # COPR repo for Starship
   - https://copr.fedorainfracloud.org/coprs/atim/starship/repo/fedora-%OS_VERSION%/atim-starship-fedora-%OS_VERSION%.repo
+  # Brave Browser repo
+  - https://brave-browser-rpm-release.s3.brave.com/brave-browser.repo
 install:
   - btop
   - gnome-console
@@ -21,6 +23,9 @@ install:
   - virt-install
   - virt-manager
   - virt-viewer
+  - brave-browser
+optfix:
+  - brave.com
 remove:
   - toolbox
   - firefox
