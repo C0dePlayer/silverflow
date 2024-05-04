@@ -1,8 +1,8 @@
 type: script
 scripts:
+  - brave-browser.sh
   - power-scheduler.sh
   - systemwide-themes.sh
 snippets:
-  - "curl https://brave-browser-rpm-release.s3.brave.com/brave-core.asc > /etc/pki/rpm-gpg/brave-core.asc"
   - "rpm-ostree install https://proton.me/download/mail/linux/ProtonMail-desktop-beta.rpm"
   - "chmod 440 /usr/etc/sudoers.d/timeout"
