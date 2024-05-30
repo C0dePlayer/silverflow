@@ -1,6 +1,5 @@
 type: script
 scripts:
-  - brave-browser.sh
   - power-scheduler.sh
   - systemwide-themes.sh
 snippets:

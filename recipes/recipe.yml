@@ -4,14 +4,15 @@ base-image: ghcr.io/ublue-os/silverblue-nvidia
 image-version: 40
 
 modules:
-  - from-file: common_modules/files.yml
-  - from-file: common_modules/akmods.yml
-  - from-file: common_modules/rpm-ostree.yml
-  - from-file: common_modules/yafti.yml
-  - from-file: common_modules/default-flatpaks.yml
-  - from-file: common_modules/bling.yml
-  - from-file: common_modules/fonts.yml
-  - from-file: common_modules/systemd.yml
-  - from-file: common_modules/gschema-overrides.yml
-  - from-file: common_modules/scripts.yml
+  - from-file: module-recipe/files.yml
+  - from-file: module-recipe/akmods.yml
+  - from-file: module-recipe/rpm-ostree.yml
+  - from-file: module-recipe/yafti.yml
+  - from-file: module-recipe/default-flatpaks.yml
+  - from-file: module-recipe/bling.yml
+  - from-file: module-recipe/fonts.yml
+  - from-file: module-recipe/gnome-extensions.yml
+  - from-file: module-recipe/gschema-overrides.yml
+  - from-file: module-recipe/scripts.yml
+  - from-file: module-recipe/systemd.yml
   - type: signing

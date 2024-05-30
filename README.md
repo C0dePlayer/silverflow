@@ -16,17 +16,25 @@ The currently-recommended method is to build an ISO using podman, then install S
 **Podman:**
 
 ```
-sudo podman run --rm --privileged --volume .:/isogenerator/output --security-opt label=disable --pull=newer \
--e VERSION=39 -e IMAGE_REPO=ghcr.io/c0deplayer -e IMAGE_NAME=silverflow-nvidia \
--e IMAGE_TAG=latest -e VARIANT=Silverblue ghcr.io/ublue-os/isogenerator:39
+mkdir ./iso-output
+sudo podman run --rm --privileged --volume ./iso-output:/build-container-installer/build --security-opt label=disable --pull=newer \
+ghcr.io/jasonn3/build-container-installer:latest \
+IMAGE_REPO=ghcr.io/c0deplayer \
+IMAGE_NAME=silverflow-nvidia \
+IMAGE_TAG=latest \
+VARIANT=Silverblue
 ```
 
 **Docker:**
 
 ```
-sudo docker run --rm --privileged --volume .:/isogenerator/output \
--e VERSION=39 -e IMAGE_REPO=ghcr.io/c0deplayer -e IMAGE_NAME=silverflow-nvidia \
--e IMAGE_TAG=latest -e VARIANT=Silverblue ghcr.io/ublue-os/isogenerator:39
+mkdir ./iso-output
+sudo docker run --rm --privileged --volume ./iso-output:/build-container-installer/build --pull=always \
+ghcr.io/jasonn3/build-container-installer:latest \
+IMAGE_REPO=ghcr.io/c0deplayer \
+IMAGE_NAME=silverflow-nvidia \
+IMAGE_TAG=latest \
+VARIANT=Silverblue
 ```
 
 ### Rebase

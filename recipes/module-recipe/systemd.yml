@@ -2,6 +2,7 @@ type: systemd
 system:
   enabled:
     - supergfxd.service
+    - minimum-free-zram.service
 user:
   enabled:
     - podman.socket

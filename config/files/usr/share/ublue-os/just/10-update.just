@@ -2,7 +2,7 @@
 
 alias upgrade := update
 
-# Update system, flatpaks, and containers all at once
+# Upgrade system, apps, and containers
 update:
   #!/usr/bin/bash
   /usr/bin/topgrade --config /usr/share/silverflow/topgrade.toml --keep

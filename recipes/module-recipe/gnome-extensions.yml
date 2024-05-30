@@ -1,0 +1,9 @@
+type: gnome-extensions
+install:
+  - Night Theme Switcher
+  - Alphabetical App Grid
+  - Blur my Shell
+  - Caffeine
+  - Tiling Assistant
+  - AppIndicator and KStatusNotifierItem Support
+  - OpenWeather Refined

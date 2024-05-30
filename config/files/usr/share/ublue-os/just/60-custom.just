@@ -81,7 +81,7 @@ set-kargs-hardening ACTION="prompt":
         --append-if-missing="iommu.strict=1" \
         --append-if-missing="pti=on" \
         --append-if-missing="module.sig_enforce=1" \
-        --append-if-missing="mitigations=auto,nosmt"
+        --append-if-missing="mitigations=auto"
     elif [ "${OPTION,,}" == "delete" ]; then
       rpm-ostree kargs \
         --delete-if-present="init_on_alloc=1" \
@@ -101,55 +101,95 @@ set-kargs-hardening ACTION="prompt":
         --delete-if-present="iommu.strict=1" \
         --delete-if-present="pti=on" \
         --delete-if-present="module.sig_enforce=1" \
-        --delete-if-present="mitigations=auto,nosmt"
+        --delete-if-present="mitigations=auto"
     fi
 
-# Configure grub bootmenu visibility and fix duplicate entries
-configure-grub ACTION="":
-    #!/bin/bash
+# Configure GRUB screen with various options
+configure-grub ACTION="prompt":
+    #!/usr/bin/env bash
     source /usr/lib/ujust/ujust.sh
-    GRUB_STATE="$(grep -P "^GRUB_TIMEOUT_STYLE=hidden" /etc/default/grub)"
+    CURRENT_STATE="Unhidden"
+    if sudo grub2-editenv list | grep -q "menu_auto_hide=1"; then
+      CURRENT_STATE="Hidden"
+    fi
     OPTION={{ ACTION }}
-    if [ "$GRUB_STATE" == "GRUB_TIMEOUT_STYLE=hidden" ]; then
-        GRUB_STATE="${b}Hidden${n}"
-    else
-        GRUB_STATE="${b}Not Hidden${n}"
-    fi
-    if [ "$OPTION" == "help" ]; then
+    if [ "$OPTION" == "prompt" ]; then
+    echo "${bold}Configuring GRUB${normal}"
+    echo "GRUB screen is currently: ${bold}${CURRENT_STATE}${normal}"
+    echo 'GRUB hiding option can be useful for making boot-times faster.'
+    echo 'Hide or Unhide GRUB? Press ESC to exit.'
+    OPTION=$(ugum choose "Unhide (Default)" Hide)
+    elif [ "$OPTION" == "help" ]; then
       echo "Usage: ujust configure-grub <option>"
-      echo "  <option>: Specify the quick option to skip the prompt"
-      echo "  Use 'hide' to select Hide Grub"
-      echo "  Use 'unhide' to select Unhide Grub"
-      echo "  Use 'fix' to select Fix double ostree entry"
+      echo "  <option>: Specify the quick option - 'hide' or 'unhide'"
+      echo "  Use 'hide' to hide GRUB boot screen."
+      echo "  Use 'unhide' to revert to defaults."
       exit 0
-    elif [ "$OPTION" == "" ]; then
-      echo "${bold}Grub menu configuration${normal}"
-      echo "Grub menu is set to: $GRUB_STATE"
-      OPTION=$(Choose "Hide Grub" "Unhide Grub" "Fix double ostree entry")
+    fi    
+    if [ "${OPTION,,}" == "hide" ]; then
+      if ! sudo grub2-editenv list | grep -q "menu_auto_hide=1"; then
+        sudo grub2-editenv - set menu_auto_hide=1
+        if [ -d /sys/firmware/efi ]; then
+          output=$(sudo grub2-mkconfig -o /etc/grub2-efi.cfg 2>&1) || echo "$output" && false
+              echo 'Hide UEFI GRUB logs during boot setting applied.'  
+        else
+          output=$(sudo grub2-mkconfig -o /etc/grub2.cfg 2>&1) || echo "$output" && false
+              echo 'Hide BIOS GRUB logs during boot setting applied.'   
+        fi
+      else
+        printf "\e[1;31mERROR: GRUB screen is already hidden, no change is made.\e[0m\n" 1>&2
+      fi
+    elif [ "$OPTION" == "Unhide (Default)" ] || [ "${OPTION,,}" == "unhide" ]; then
+      if sudo grub2-editenv list | grep -q "menu_auto_hide=1"; then    
+        sudo grub2-editenv - unset menu_auto_hide
+        if [ -d /sys/firmware/efi ]; then
+          output=$(sudo grub2-mkconfig -o /etc/grub2-efi.cfg 2>&1) || echo "$output" && false
+              echo 'Reverted setting "UEFI GRUB logs during boot" to defaults.'  
+        else
+          output=$(sudo grub2-mkconfig -o /etc/grub2.cfg 2>&1) || echo "$output" && false
+              echo 'Reverted setting "BIOS GRUB logs during boot" to defaults.'   
+        fi
+      else
+        printf "\e[1;31mERROR: GRUB screen is already present, no change is made.\e[0m\n" 1>&2
+      fi  
     fi
-    if [[ "${OPTION,,}" =~ ^hide ]]; then
-      sudo sed -i 's/GRUB_TIMEOUT=5/GRUB_TIMEOUT=0/g' /etc/default/grub
-      echo 'GRUB_TIMEOUT_STYLE=hidden' | sudo tee -a /etc/default/grub 1>/dev/null
-      echo 'GRUB_HIDDEN_TIMEOUT=1' | sudo tee -a /etc/default/grub 1>/dev/null
-      if [ -d /sys/firmware/efi ]; then
-        sudo grub2-mkconfig -o /etc/grub2-efi.cfg
-      else
-        sudo grub2-mkconfig -o /etc/grub2.cfg
-      fi
-    elif [[ "${OPTION,,}" =~ ^unhide ]]; then
-      sudo sed -i '/GRUB_HIDDEN_TIMEOUT=1/d' /etc/default/grub
-      sudo sed -i '/GRUB_TIMEOUT_STYLE=hidden/d' /etc/default/grub
-      sudo sed -i 's/GRUB_TIMEOUT=0/GRUB_TIMEOUT=5/g' /etc/default/grub
-      if [ -d /sys/firmware/efi ]; then
-        sudo grub2-mkconfig -o /etc/grub2-efi.cfg
-      else
-        sudo grub2-mkconfig -o /etc/grub2.cfg
-      fi
-    elif [[ "${OPTION,,}" =~ ^fix ]]; then
-      sudo grub2-switch-to-blscfg
-      if [ -d /sys/firmware/efi ]; then
-        sudo grub2-mkconfig -o /etc/grub2-efi.cfg
-      else
-        sudo grub2-mkconfig -o /etc/grub2.cfg
-      fi
+
+# Configure scheduled nightly reboot
+scheduled-reboot ACTION="prompt":
+    #!/usr/bin/env bash
+    source /usr/lib/ujust/ujust.sh
+    CURRENT_STATE="Disabled"
+    if systemctl is-enabled nightly-reboot.timer | grep -q enabled; then
+      CURRENT_STATE="Enabled"
+    fi  
+    OPTION={{ ACTION }}
+    if [ "$OPTION" == "prompt" ]; then
+      echo "${bold}Configuring scheduled nightly reboot${normal}"    
+      echo "Scheduled nightly reboot is currently: ${bold}${CURRENT_STATE}${normal}"
+      echo 'Configure scheduled nightly reboot, which happens in 03:00.'
+      echo 'Enable or Disable scheduled nightly reboot? Press ESC to exit.'
+      OPTION=$(ugum choose "Disable (Default)" Enable)
+    elif [ "$OPTION" == "help" ]; then
+      echo "Usage: ujust configure-scheduled-reboot <option>"
+      echo "  <option>: Specify the quick option - 'enable' or 'disable'"
+      echo "  Use 'enable' to enable scheduled nightly reboot systemd service."
+      echo "  Use 'disable' to revert to defaults."      
+      exit 0
     fi
+    if [ "${OPTION,,}" == "enable" ]; then
+      if systemctl is-enabled nightly-reboot.timer | grep -q disabled; then
+        sudo systemctl enable nightly-reboot.timer
+        sudo systemctl start nightly-reboot.timer
+        echo "Nightly scheduled reboot is enabled!"
+      else
+        printf "\e[1;31mERROR: Nightly scheduled reboot is already enabled, no change is made.\e[0m\n" 1>&2
+      fi  
+    elif [ "$OPTION" == "Disable (Default)" ] || [ "${OPTION,,}" == "disable" ]; then
+      if systemctl is-enabled nightly-reboot.timer | grep -q enabled; then
+        sudo systemctl disable nightly-reboot.timer
+        sudo systemctl stop nightly-reboot.timer
+        echo 'Reverted setting "nightly scheduled reboot" to defaults.'
+      else
+        printf "\e[1;31mERROR: Nightly scheduled reboot is already disabled, no change is made.\e[0m\n" 1>&2
+      fi
+    fi  
