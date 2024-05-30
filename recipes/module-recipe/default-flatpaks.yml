@@ -1,4 +1,9 @@
 type: default-flatpaks
+user:
+  repo-url: https://dl.flathub.org/repo/flathub.flatpakrepo
+  repo-name: flathub
+  repo-title: "Flathub (User)"
+
 system:
   repo-url: https://dl.flathub.org/repo/flathub.flatpakrepo
   repo-name: flathub
@@ -30,9 +35,3 @@ system:
     - com.mattjakeman.ExtensionManager
     - org.gtk.Gtk3theme.adw-gtk3
     - org.gtk.Gtk3theme.adw-gtk3-dark
-
-user:
-  repo-url: https://dl.flathub.org/repo/flathub.flatpakrepo
-  repo-name: flathub
-  repo-title: "Flathub (User)"
-  install:
