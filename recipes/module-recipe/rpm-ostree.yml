@@ -5,7 +5,7 @@ repos:
   # Repo for Razer Hardware
   - https://download.opensuse.org/repositories/hardware:/razer/Fedora_%OS_VERSION%/hardware:razer.repo
   # Repo for MoreWaita icons
-  - https://copr.fedorainfracloud.org/coprs/dusansimic/themes/repo/fedora-%OS_VERSION%/dusansimic-themes/-fedora-%OS_VERSION%.repo
+  - https://copr.fedorainfracloud.org/coprs/dusansimic/themes/repo/fedora-%OS_VERSION%/dusansimic-themes-fedora-%OS_VERSION%.repo
 install:
   - glow
   - fish
