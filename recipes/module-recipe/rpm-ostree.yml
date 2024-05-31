@@ -4,6 +4,8 @@ repos:
   - https://raw.githubusercontent.com/ublue-os/bluefin/main/system_files/dx/etc/yum.repos.d/vscode.repo
   # Repo for Razer Hardware
   - https://download.opensuse.org/repositories/hardware:/razer/Fedora_%OS_VERSION%/hardware:razer.repo
+  # Repo for MoreWaita icons
+  - https://copr.fedorainfracloud.org/coprs/dusansimic/themes/repo/fedora-%OS_VERSION%/dusansimic-themes/-fedora-%OS_VERSION%.repo
 install:
   - glow
   - fish
@@ -16,6 +18,8 @@ install:
   - usbguard-dbus
   - usbguard-notifier
   - printer-driver-brlaser
+  - morewaita-icon-theme
+  - adw-gtk3-theme
 remove:
   - firefox
   - firefox-langpacks
