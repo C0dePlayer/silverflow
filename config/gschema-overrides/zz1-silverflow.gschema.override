@@ -26,6 +26,9 @@ titlebar-uses-system-font=false
 [org.gnome.desktop.datetime]
 automatic-timezone=true
 
+[org.gnome.shell]
+enabled-extensions=['AlphabeticalAppGrid@stuarthayhurst', 's76-scheduler@mattjakeman.com', 'caffeine@patapon.info', 'nightthemeswitcher@romainvigier.fr', 'tiling-assistant@leleat-on-github', 'gpu-switcher-supergfxctl@chikobara.github.io', 'appindicatorsupport@rgcjonas.gmail.com']
+
 [org.gnome.desktop.peripherals.keyboard]
 delay=uint32 226
 numlock-state=true
@@ -58,3 +61,13 @@ sort-directories-first=true
 [org.gtk.settings.file-chooser]
 show-hidden=true
 sort-directories-first=true
+
+#-------------- EXTENSION MODIFICATIONS --------------#
+
+[org.gnome.shell.extensions.nightthemeswitcher.commands]
+enabled=true
+sunrise="gsettings set org.gnome.desktop.interface gtk-theme 'adw-gtk3' && gsettings set org.gnome.desktop.interface color-scheme 'default' && gsettings set org.gnome.desktop.interface cursor-theme \"Bibata-Modern-Light\""
+sunset="gsettings set org.gnome.desktop.interface gtk-theme 'adw-gtk3-dark' && gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark' && gsettings set org.gnome.desktop.interface cursor-theme \"Bibata-Modern-Dark\""   
+
+[org.gnome.shell.extensions.alphabetical-app-grid]
+folder-order-position='start'
