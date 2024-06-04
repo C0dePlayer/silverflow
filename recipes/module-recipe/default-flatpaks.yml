@@ -27,7 +27,7 @@ system:
     - org.gnome.Loupe
     - com.github.neithern.g4music
     - com.github.rafostar.Clapper
-    - io.gitlab.librewolf-community
+    - com.brave.Browser
     - org.localsend.localsend_app
     - com.dec05eba.gpu_screen_recorder
     - com.github.tchx84.Flatseal
