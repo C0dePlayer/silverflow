@@ -1,7 +1,10 @@
+# yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
+# ^^^ Above line sets up validation in supported editors ^^^
+
 name: silverflow-nvidia
 description: My personal OS image (based on silverblue-nvidia from uBlue OS)
 base-image: ghcr.io/ublue-os/silverblue-nvidia
-image-version: 40
+image-version: "40"
 
 modules:
   - from-file: module-recipe/files.yml
@@ -11,6 +14,7 @@ modules:
   - from-file: module-recipe/default-flatpaks.yml
   - from-file: module-recipe/bling.yml
   - from-file: module-recipe/fonts.yml
+  - type: brew
   - from-file: module-recipe/gnome-extensions.yml
   - from-file: module-recipe/gschema-overrides.yml
   - from-file: module-recipe/scripts.yml
