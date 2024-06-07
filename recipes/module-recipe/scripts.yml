@@ -2,5 +2,5 @@ type: script
 scripts:
   - power-scheduler.sh
 snippets:
-  - "rpm-ostree install https://proton.me/download/mail/linux/ProtonMail-desktop-beta.rpm"
+  - "rpm-ostree install https://proton.me/download/PassDesktop/linux/x64/ProtonPass.rpm https://proton.me/download/mail/linux/ProtonMail-desktop-beta.rpm"
   - "chmod 440 /usr/etc/sudoers.d/timeout"
