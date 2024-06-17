@@ -70,7 +70,6 @@ set-kargs-hardening ACTION="prompt":
         --append-if-missing="page_alloc.shuffle=1" \
         --append-if-missing="randomize_kstack_offset=on" \
         --append-if-missing="vsyscall=none" \
-        --append-if-missing="debugfs=off" \
         --append-if-missing="lockdown=confidentiality" \
         --append-if-missing="random.trust_cpu=off" \
         --append-if-missing="random.trust_bootloader=off" \
@@ -81,7 +80,7 @@ set-kargs-hardening ACTION="prompt":
         --append-if-missing="iommu.strict=1" \
         --append-if-missing="pti=on" \
         --append-if-missing="module.sig_enforce=1" \
-        --append-if-missing="mitigations=auto"
+        --append-if-missing="mitigations=auto,nosmt"
     elif [ "${OPTION,,}" == "delete" ]; then
       rpm-ostree kargs \
         --delete-if-present="init_on_alloc=1" \
@@ -90,7 +89,6 @@ set-kargs-hardening ACTION="prompt":
         --delete-if-present="page_alloc.shuffle=1" \
         --delete-if-present="randomize_kstack_offset=on" \
         --delete-if-present="vsyscall=none" \
-        --delete-if-present="debugfs=off" \
         --delete-if-present="lockdown=confidentiality" \
         --delete-if-present="random.trust_cpu=off" \
         --delete-if-present="random.trust_bootloader=off" \
@@ -101,7 +99,9 @@ set-kargs-hardening ACTION="prompt":
         --delete-if-present="iommu.strict=1" \
         --delete-if-present="pti=on" \
         --delete-if-present="module.sig_enforce=1" \
-        --delete-if-present="mitigations=auto"
+        --delete-if-present="mitigations=auto,nosmt" \
+        --delete-if-present="efi=disable_early_pci_dma" \
+        --delete-if-present="debugfs=off"
     fi
 
 # Configure GRUB screen with various options
@@ -152,6 +152,31 @@ configure-grub ACTION="prompt":
       else
         printf "\e[1;31mERROR: GRUB screen is already present, no change is made.\e[0m\n" 1>&2
       fi  
+    fi
+
+# enable a kernel module that is disabled by modprobe.d (requires restart)
+override-enable-module mod_name:
+    #!/usr/bin/pkexec /usr/bin/bash
+    MOD_NAME="{{ mod_name }}"
+    MOD_FILE="/etc/modprobe.d/99-$MOD_NAME.conf"
+    if test -e $MOD_FILE; then
+      echo "$MOD_NAME module is already enabled."
+    else
+      sudo sh -c 'echo "install $1 /sbin/modprobe --ignore-install $1" >> "$2"' _ "$MOD_NAME" "$MOD_FILE" 
+      sudo chmod 644 $MOD_FILE
+      echo "Override created to enable $MOD_NAME module. Reboot to take effect."
+    fi
+  
+# reset the override by `just override-enable-module`, i.e. disable the module again (requires restart)
+override-reset-module mod_name:
+    #!/usr/bin/pkexec /usr/bin/bash
+    MOD_NAME="{{ mod_name }}"
+    MOD_FILE="/etc/modprobe.d/99-$MOD_NAME.conf"
+    if test -e $MOD_FILE; then
+      sudo rm -f $MOD_FILE
+      echo "The override for $MOD_NAME module has been reset. Reboot to take effect."
+    else
+      echo "No override found for $MOD_NAME module."
     fi
 
 # Configure scheduled nightly reboot
