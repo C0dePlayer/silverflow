@@ -1,6 +1,6 @@
 type: script
 scripts:
-  - https_mirros.sh
+  - https_mirrors.sh
   - power-scheduler.sh
 snippets:
   - "chmod 440 /usr/etc/sudoers.d/timeout"
