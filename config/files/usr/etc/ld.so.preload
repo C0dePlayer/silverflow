@@ -1,1 +1,1 @@
-ld.so.preload
+libhardened_malloc.so
