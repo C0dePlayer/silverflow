@@ -6,7 +6,14 @@ repos:
   - https://download.opensuse.org/repositories/hardware:/razer/Fedora_%OS_VERSION%/hardware:razer.repo
   # Repo for MoreWaita icons
   - https://copr.fedorainfracloud.org/coprs/dusansimic/themes/repo/fedora-%OS_VERSION%/dusansimic-themes-fedora-%OS_VERSION%.repo
+  # Repo for Brave Browser
+  - https://brave-browser-rpm-release.s3.brave.com/brave-browser.repo
+keys:
+  - https://brave-browser-rpm-release.s3.brave.com/brave-core.asc
+optfix:
+  - brave.com
 install:
+  - brave-browser
   - glow
   - fish
   - btop
