@@ -154,6 +154,20 @@ configure-grub ACTION="prompt":
       fi  
     fi
 
+# Toggle bluetooth kernel modules on/off (requires reboot)
+toggle-bluetooth-modules:
+    #!/usr/bin/pkexec /usr/bin/bash
+    BLUE_MOD_FILE="/etc/modprobe.d/99-bluetooth.conf"
+    if test -e $BLUE_MOD_FILE; then
+      sudo rm -f $BLUE_MOD_FILE
+      echo "Bluetooth kernel modules disabled. Reboot to take effect."
+    else
+      sudo sh -c 'echo "install bluetooth /sbin/modprobe --ignore-install bluetooth" >> "$1"' _ "$BLUE_MOD_FILE"
+      sudo sh -c 'echo "install btusb /sbin/modprobe --ignore-install btusb" >> "$1"' _ "$BLUE_MOD_FILE"
+      sudo chmod 644 $BLUE_MOD_FILE
+      echo "Bluetooth kernel modules enabled. Reboot to take effect."
+    fi
+
 # enable a kernel module that is disabled by modprobe.d (requires restart)
 override-enable-module mod_name:
     #!/usr/bin/pkexec /usr/bin/bash
