@@ -8,6 +8,7 @@ image-version: "40"
 
 modules:
   - from-file: module-recipe/files.yml
+  - from-file: module-recipe/scripts.yml
   - from-file: module-recipe/akmods.yml
   - from-file: module-recipe/rpm-ostree.yml
   - from-file: module-recipe/yafti.yml
@@ -17,6 +18,5 @@ modules:
   - type: brew
   - from-file: module-recipe/gnome-extensions.yml
   - from-file: module-recipe/gschema-overrides.yml
-  - from-file: module-recipe/scripts.yml
   - from-file: module-recipe/systemd.yml
   - type: signing
