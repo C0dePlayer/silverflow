@@ -8,11 +8,14 @@ repos:
   - https://copr.fedorainfracloud.org/coprs/dusansimic/themes/repo/fedora-%OS_VERSION%/dusansimic-themes-fedora-%OS_VERSION%.repo
   # Repo for Brave Browser
   - https://brave-browser-rpm-release.s3.brave.com/brave-browser.repo
+  # Repo for Hardened Malloc
+  - https://copr.fedorainfracloud.org/coprs/secureblue/hardened_malloc/repo/fedora-%OS_VERSION%/secureblue-hardened_malloc-fedora-%OS_VERSION%.repo
 keys:
   - https://brave-browser-rpm-release.s3.brave.com/brave-core.asc
 optfix:
   - brave.com
 install:
+  - hardened_malloc
   - brave-browser
   - glow
   - fish
